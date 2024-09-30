@@ -1,4 +1,4 @@
-const days = "September 28, 2024";
+const incidentDate = "September 28, 2024";
 
 function daysSince(dateStr) {
     const startDate = new Date(dateStr);
@@ -7,7 +7,23 @@ function daysSince(dateStr) {
     return Math.ceil(diffInMilliseconds / (1000 * 3600 * 24));
 }
 
-since = daysSince(days);
-console.log(since);
-document.getElementById("days").textContent = since;
-document.getElementById("rawtime").textContent = `Last occured on ${days}.`;
+function updateMainPage() {
+    const daysSinceIncident = daysSince(incidentDate);
+    console.log(daysSinceIncident);
+    document.getElementById("days").textContent = daysSinceIncident;
+    document.getElementById("rawtime").textContent = `Last occurred on ${incidentDate}.`;
+}
+
+function getAPIResponse() {
+    const daysSinceIncident = daysSince(incidentDate);
+    return {
+        lastIncident: incidentDate,
+        daysSince: daysSinceIncident,
+        currentDate: new Date().toISOString().split('T')[0]
+    };
+}
+
+// Check if we're on the main page or the API page
+if (document.getElementById("days")) {
+    updateMainPage();
+}
