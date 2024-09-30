@@ -2,21 +2,22 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WSL Incident API</title>
-</head>
-<body>
-    <pre id="api-response"></pre>
+    <meta http-equiv="refresh" content="0;url=incident-data.json">
     <script>
         fetch('incident-data.json')
-            .then(response => response.json())
+            .then(response => response.text())
             .then(data => {
-                document.getElementById('api-response').textContent = JSON.stringify(data, null, 2);
+                document.open();
+                document.write(data);
+                document.close();
             })
             .catch(error => {
                 console.error('Error:', error);
-                document.getElementById('api-response').textContent = 'Error loading data';
+                document.body.textContent = JSON.stringify({ error: 'Error loading data' });
             });
     </script>
+</head>
+<body>
+    If you are not redirected, <a href="incident-data.json">click here</a>.
 </body>
 </html>
