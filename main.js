@@ -1,5 +1,3 @@
-const incidentDate = "September 28, 2024";
-
 function daysSince(dateStr) {
     const startDate = new Date(dateStr);
     const today = new Date();
@@ -7,23 +5,41 @@ function daysSince(dateStr) {
     return Math.ceil(diffInMilliseconds / (1000 * 3600 * 24));
 }
 
-function updateMainPage() {
-    const daysSinceIncident = daysSince(incidentDate);
-    console.log(daysSinceIncident);
+function updateMainPage(data) {
+    const daysSinceIncident = daysSince(data.lastIncident);
     document.getElementById("days").textContent = daysSinceIncident;
-    document.getElementById("rawtime").textContent = `Last occurred on ${incidentDate}.`;
+    document.getElementById("rawtime").textContent = `Last occurred on ${data.lastIncident}.`;
 }
 
-function getAPIResponse() {
-    const daysSinceIncident = daysSince(incidentDate);
-    return {
-        lastIncident: incidentDate,
+function updateJSONData(data) {
+    const daysSinceIncident = daysSince(data.lastIncident);
+    const currentDate = new Date().toISOString().split('T')[0];
+    
+    const jsonData = {
+        lastIncident: data.lastIncident,
         daysSince: daysSinceIncident,
-        currentDate: new Date().toISOString().split('T')[0]
+        currentDate: currentDate
     };
+
+    // For demonstration purposes, we'll update the page content
+    document.getElementById('api-response').textContent = JSON.stringify(jsonData, null, 2);
 }
 
-// Check if we're on the main page or the API page
-if (document.getElementById("days")) {
-    updateMainPage();
+function fetchDataAndUpdate() {
+    fetch('incident-data.json')
+        .then(response => response.json())
+        .then(data => {
+            if (document.getElementById("days")) {
+                updateMainPage(data);
+            } else if (document.getElementById("api-response")) {
+                updateJSONData(data);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            document.getElementById('error-message').textContent = 'Error loading data';
+        });
 }
+
+// Call the function to fetch data and update the page
+fetchDataAndUpdate();
