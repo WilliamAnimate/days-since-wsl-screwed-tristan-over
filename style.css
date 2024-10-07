@@ -18,10 +18,6 @@ body {
     background-color: var(--bg-color);
     color: var(--text-color);
     text-align: center;
-
-    animation: fade-in var(--transition-bezier) .5s;
-	animation-iteration-count: 1;
-	animation-fill-mode: forwards;
 }
 * {
     font-family: Lexend;
@@ -36,4 +32,13 @@ h1 { font-size: 3em }
     top: 50%;
     transform: translate(-50%, -50%);
     font-size: 10em;
+}
+
+.hidden {
+    opacity: 0;
+}
+
+.fade-in {
+    opacity: 1;
+    transition: opacity, var(--transition-bezier) .5s;
 }

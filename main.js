@@ -6,15 +6,19 @@ function daysSince(dateStr) {
 }
 
 function updateMainPage(data) {
+    const daysElement = document.getElementById("days");
+    const rawtimeElement = document.getElementById("rawtime");
     const daysSinceIncident = daysSince(data.lastIncident);
-    document.getElementById("days").textContent = daysSinceIncident;
-    document.getElementById("rawtime").textContent = `Last occurred on ${data.lastIncident}.`;
+    days.textContent = daysSinceIncident;
+    rawtimeElement.textContent = `Last occurred on ${data.lastIncident}.`;
+    days.classList.add("fade-in");
+    rawtimeElement.classList.add("fade-in");
 }
 
 function updateJSONData(data) {
     const daysSinceIncident = daysSince(data.lastIncident);
     const currentDate = new Date().toISOString().split('T')[0];
-    
+
     const jsonData = {
         lastIncident: data.lastIncident,
         daysSince: daysSinceIncident,
@@ -41,5 +45,7 @@ function fetchDataAndUpdate() {
         });
 }
 
+// make <body> visible
+document.body.classList.add("fade-in");
 // Call the function to fetch data and update the page
 fetchDataAndUpdate();
